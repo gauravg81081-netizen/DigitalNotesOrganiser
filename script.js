@@ -1705,10 +1705,11 @@ async function createAccount(event) {
             password: password,
 
             options: {
-                data: {
-                    username: username
-                }
-            }
+    emailRedirectTo: "https://gauravg81081-netizen.github.io/DigitalNotesOrganiser/",
+    data: {
+        username: username
+    }
+}
 
         });
 
