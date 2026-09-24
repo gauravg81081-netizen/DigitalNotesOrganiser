@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Notes Organiser</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+            📚
+        </div>
+
+        <h1>Digital Notes Organiser</h1>
+
+        <p class="login-subtitle">
+            Welcome back! Please login to continue.
+        </p>
+
+        <form id="loginForm">
+
+            <div class="login-input-group">
+                <label>Email</label>
+<input
+    type="email"
+    id="loginUsername"
+    placeholder="Enter your email"
+    required
+>
+            </div>
+
+            <div class="login-input-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <p class="signup-text">
+            Don't have an account?
+            <button type="button" onclick="showSignup()">
+                Sign Up
+            </button>
+        </p>
+
+    </div>
+
+</div>
+<!-- ================= END LOGIN SCREEN ================= -->
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+
+            <div>
+                <h2>DNO</h2>
+                <span>Digital Notes</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <p class="menu-title">MENU</p>
+
+            <button class="nav-item active" onclick="showDashboard()" id="dashboardNav">
+                <span>🏠</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" onclick="showSubjects()" id="subjectsNav">
+                <span>📚</span>
+                Subjects
+            </button>
+
+            <button class="nav-item" onclick="showAllNotes()" id="allNotesNav">
+                <span>📝</span>
+                All Notes
+            </button>
+
+            <button class="nav-item" onclick="showImportantNotes()" id="importantNav">
+                <span>⭐</span>
+                Important
+            </button>
+
+            <p class="menu-title second-menu">OTHER</p>
+
+            <button class="nav-item" onclick="showSettings()" id="settingsNav">
+                <span>⚙️</span>
+                Settings
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="mini-profile">
+                <div class="profile-avatar">G</div>
+
+                <div>
+                    <strong id="profileUsername">Student</strong>
+                    <small>DNO User</small>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="top-header">
+
+            <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                ☰
+            </button>
+
+            <div class="header-search">
+
+                <div class="search-box">
+
+                    <span>🔍</span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search notes..."
+                        oninput="searchNotes()"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="header-right">
+
+    <button class="header-icon" onclick="showMessage('No new notifications.')">
+        🔔
+    </button>
+
+    <div class="header-profile" onclick="openProfilePopup()">
+
+        <div class="profile-avatar" id="headerAvatar">
+    G
+</div> 
+
+        <div class="profile-info">
+            <strong id="headerUsername">Student</strong>
+            <small>Engineering Student</small>
+        </div>
+
+    </div>
+
+</div>
+
+        </header>
+
+
+        <!-- PAGE AREA -->
+        <div class="page-container">
+
+
+            <!-- ================= DASHBOARD ================= -->
+
+            <section id="dashboardSection" class="page-section">
+
+                <div class="welcome-card">
+
+                    <div class="welcome-text">
+
+                        <p class="welcome-small">
+                            DIGITAL NOTES ORGANISER
+                        </p>
+
+                        <h1>
+                            Welcome back! 👋
+                        </h1>
+
+                        <p>
+                            Organise your study notes, subjects and important topics in one place.
+                        </p>
+
+                        <button class="primary-btn" onclick="openAddNote()">
+                            + Add New Note
+                        </button>
+
+                    </div>
+
+                    <div class="welcome-icon">
+                        📚
+                    </div>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon blue">
+                            📝
+                        </div>
+
+                        <div>
+                            <span>Total Notes</span>
+                            <h2 id="totalNotes">0</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon yellow">
+                            ⭐
+                        </div>
+
+                        <div>
+                            <span>Important</span>
+                            <h2 id="importantNotes">0</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon green">
+                            📚
+                        </div>
+
+                        <div>
+                            <span>Subjects</span>
+                            <h2 id="totalSubjects">8</h2>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECTS -->
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="section-small">
+                            YOUR STUDIES
+                        </p>
+
+                        <h2>
+                            Subjects
+                        </h2>
+                    </div>
+
+                    <button class="text-btn" onclick="showSubjects()">
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <div class="subject-grid">
+
+
+                    <div class="subject-card mathematics"
+                         onclick="openSubject('Mathematics for Signal Analysis')">
+
+                        <div class="subject-icon">
+                            📐
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>Mathematics</h3>
+
+                            <p>
+                                Mathematics for Signal Analysis
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-Mathematics">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card electronics"
+                         onclick="openSubject('Electronic Devices and Linear Circuits')">
+
+                        <div class="subject-icon">
+                            🔌
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>Electronic Devices</h3>
+
+                            <p>
+                                Electronic Devices and Linear Circuits
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-Electronic">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card dsd"
+                         onclick="openSubject('Digital System Design')">
+
+                        <div class="subject-icon">
+                            🔢
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>DSD</h3>
+
+                            <p>
+                                Digital System Design
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-DSD">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card evs"
+                         onclick="openSubject('Environmental Science')">
+
+                        <div class="subject-icon">
+                            🌱
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>Environmental Science</h3>
+
+                            <p>
+                                Environmental Science
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-EVS">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card entrepreneurship"
+                         onclick="openSubject('Entrepreneurship Development')">
+
+                        <div class="subject-icon">
+                            💡
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>Entrepreneurship</h3>
+
+                            <p>
+                                Entrepreneurship Development
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-ENTP">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card network"
+                         onclick="openSubject('Network Theory and Control System')">
+
+                        <div class="subject-icon">
+                            ⚡
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>Network Theory</h3>
+
+                            <p>
+                                Network Theory and Control System
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-NTCS">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card marketing"
+                         onclick="openSubject('Digital Marketing')">
+
+                        <div class="subject-icon">
+                            📢
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>Digital Marketing</h3>
+
+                            <p>
+                                Digital Marketing
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-DM">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card programming"
+                         onclick="openSubject('C++ and Java Programming')">
+
+                        <div class="subject-icon">
+                            💻
+                        </div>
+
+                        <div class="subject-info">
+
+                            <h3>C++ & Java</h3>
+
+                            <p>
+                                C++ and Java Programming
+                            </p>
+
+                            <span class="subject-note-count"
+                                  id="count-CPP">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT NOTES -->
+
+                <div class="section-heading recent-heading">
+
+                    <div>
+
+                        <p class="section-small">
+                            LATEST
+                        </p>
+
+                        <h2>
+                            Recent Notes
+                        </h2>
+
+                    </div>
+
+                    <button class="text-btn" onclick="showAllNotes()">
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <div id="recentNotesGrid" class="notes-grid"></div>
+
+            </section>
+
+
+
+            <!-- ================= SUBJECTS ================= -->
+
+            <section id="subjectsSection" class="page-section hidden">
+
+                <div class="page-title">
+
+                    <div>
+
+                        <p class="welcome-small">
+                            YOUR STUDIES
+                        </p>
+
+                        <h1>
+                            All Subjects
+                        </h1>
+
+                        <p>
+                            Select a subject to view its notes.
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn" onclick="openAddNote()">
+                        + Add Note
+                    </button>
+
+                </div>
+
+
+                <div class="subject-grid">
+
+                    <div class="subject-card mathematics"
+                         onclick="openSubject('Mathematics for Signal Analysis')">
+
+                        <div class="subject-icon">📐</div>
+
+                        <div class="subject-info">
+
+                            <h3>Mathematics</h3>
+
+                            <p>Mathematics for Signal Analysis</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-Mathematics">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card electronics"
+                         onclick="openSubject('Electronic Devices and Linear Circuits')">
+
+                        <div class="subject-icon">🔌</div>
+
+                        <div class="subject-info">
+
+                            <h3>Electronic Devices</h3>
+
+                            <p>Electronic Devices and Linear Circuits</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-Electronic">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card dsd"
+                         onclick="openSubject('Digital System Design')">
+
+                        <div class="subject-icon">🔢</div>
+
+                        <div class="subject-info">
+
+                            <h3>DSD</h3>
+
+                            <p>Digital System Design</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-DSD">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card evs"
+                         onclick="openSubject('Environmental Science')">
+
+                        <div class="subject-icon">🌱</div>
+
+                        <div class="subject-info">
+
+                            <h3>Environmental Science</h3>
+
+                            <p>Environmental Science</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-EVS">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card entrepreneurship"
+                         onclick="openSubject('Entrepreneurship Development')">
+
+                        <div class="subject-icon">💡</div>
+
+                        <div class="subject-info">
+
+                            <h3>Entrepreneurship</h3>
+
+                            <p>Entrepreneurship Development</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-ENTP">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card network"
+                         onclick="openSubject('Network Theory and Control System')">
+
+                        <div class="subject-icon">⚡</div>
+
+                        <div class="subject-info">
+
+                            <h3>Network Theory</h3>
+
+                            <p>Network Theory and Control System</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-NTCS">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card marketing"
+                         onclick="openSubject('Digital Marketing')">
+
+                        <div class="subject-icon">📢</div>
+
+                        <div class="subject-info">
+
+                            <h3>Digital Marketing</h3>
+
+                            <p>Digital Marketing</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-DM">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="subject-card programming"
+                         onclick="openSubject('C++ and Java Programming')">
+
+                        <div class="subject-icon">💻</div>
+
+                        <div class="subject-info">
+
+                            <h3>C++ & Java</h3>
+
+                            <p>C++ and Java Programming</p>
+
+                            <span class="subject-note-count"
+                                  id="subject-count-CPP">
+                                0 notes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= SUBJECT DETAIL ================= -->
+
+            <section id="subjectDetailSection" class="page-section hidden">
+
+                <div class="page-title">
+
+                    <div>
+
+                        <button class="back-btn" onclick="showSubjects()">
+                            ← Back to Subjects
+                        </button>
+
+                        <p class="welcome-small" id="subjectDetailSmall">
+                            SUBJECT NOTES
+                        </p>
+
+                        <h1 id="subjectDetailTitle">
+                            Subject
+                        </h1>
+
+                        <p id="subjectDetailDescription">
+                            Notes for this subject.
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn"
+                            onclick="openAddNoteForSubject()">
+
+                        + Add Note
+
+                    </button>
+
+                </div>
+
+
+                <div id="subjectNotesGrid"
+                     class="notes-grid">
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= ALL NOTES ================= -->
+
+            <section id="allNotesSection"
+                     class="page-section hidden">
+
+                <div class="page-title">
+
+                    <div>
+
+                        <p class="welcome-small">
+                            YOUR NOTES
+                        </p>
+
+                        <h1>
+                            All Notes
+                        </h1>
+
+                        <p>
+                            Search, filter and organise all your saved notes.
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn"
+                            onclick="openAddNote()">
+
+                        + Add Note
+
+                    </button>
+
+                </div>
+
+
+                <!-- STEP 4 FILTER TOOLBAR -->
+
+                <div class="notes-toolbar">
+
+                    <div class="toolbar-search">
+
+                        <span>🔍</span>
+
+                        <input
+                            type="text"
+                            id="notesSearchInput"
+                            placeholder="Search notes..."
+                            oninput="applyNoteFilters()"
+                        >
+
+                    </div>
+
+
+                    <select
+                        id="subjectFilter"
+                        onchange="applyNoteFilters()">
+
+                        <option value="all">
+                            All Subjects
+                        </option>
+
+                        <option value="Mathematics for Signal Analysis">
+                            Mathematics
+                        </option>
+
+                        <option value="Electronic Devices and Linear Circuits">
+                            Electronic Devices
+                        </option>
+
+                        <option value="Digital System Design">
+                            DSD
+                        </option>
+
+                        <option value="Environmental Science">
+                            Environmental Science
+                        </option>
+
+                        <option value="Entrepreneurship Development">
+                            Entrepreneurship
+                        </option>
+
+                        <option value="Network Theory and Control System">
+                            Network Theory
+                        </option>
+
+                        <option value="Digital Marketing">
+                            Digital Marketing
+                        </option>
+
+                        <option value="C++ and Java Programming">
+                            C++ & Java
+                        </option>
+
+                    </select>
+
+
+                    <select
+                        id="sortFilter"
+                        onchange="applyNoteFilters()">
+
+                        <option value="newest">
+                            Newest First
+                        </option>
+
+                        <option value="oldest">
+                            Oldest First
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="secondary-btn"
+                        onclick="resetNoteFilters()">
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+
+                <p id="notesResultInfo"
+                   class="filter-result-info">
+                </p>
+
+
+                <div id="allNotesGrid"
+                     class="notes-grid">
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= IMPORTANT ================= -->
+
+            <section id="importantSection"
+                     class="page-section hidden">
+
+                <div class="page-title">
+
+                    <div>
+
+                        <p class="welcome-small">
+                            SAVED FOR LATER
+                        </p>
+
+                        <h1>
+                            Important Notes ⭐
+                        </h1>
+
+                        <p>
+                            Your most important study notes.
+                        </p>
+
+                    </div>
+
+                    <button class="primary-btn"
+                            onclick="openAddNote()">
+
+                        + Add Note
+
+                    </button>
+
+                </div>
+
+
+                <div id="importantNotesGrid"
+                     class="notes-grid">
+                </div>
+
+            </section>
+
+
+
+            <!-- ================= SETTINGS ================= -->
+
+            <section id="settingsSection"
+                     class="page-section hidden">
+
+                <div class="page-title">
+
+                    <div>
+
+                        <p class="welcome-small">
+                            APPLICATION
+                        </p>
+
+                        <h1>
+                            Settings
+                        </h1>
+
+                        <p>
+                            Manage your Digital Notes Organiser.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+    <h3>Digital Notes Organiser</h3>
+
+    <p>
+        Manage your notes and view your organiser information.
+    </p>
+
+    <div class="setting-row">
+        <span>Storage</span>
+        <strong>Local Storage</strong>
+    </div>
+
+    <div class="setting-row">
+        <span>Total Saved Notes</span>
+        <strong id="settingsTotalNotes">0</strong>
+    </div>
+
+    <div class="setting-row">
+        <span>Important Notes</span>
+        <strong id="settingsImportantNotes">0</strong>
+    </div>
+
+    <div class="setting-row">
+        <span>Total Subjects</span>
+        <strong id="settingsSubjects">8</strong>
+    </div>
+
+    <div class="setting-row">
+        <span>Application</span>
+        <strong>DNO</strong>
+    </div>
+
+</div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- ================= ADD NOTE MODAL ================= -->
+
+<div class="modal-overlay hidden"
+     id="addNoteModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <p class="modal-small">
+                    DIGITAL NOTES ORGANISER
+                </p>
+
+                <h2>
+                    Add New Note
+                </h2>
+
+            </div>
+
+            <button class="modal-close"
+                    onclick="closeAddNote()">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <label>
+                    Subject
+                </label>
+
+                <select id="noteSubject">
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                    <option value="Mathematics for Signal Analysis">
+                        Mathematics for Signal Analysis
+                    </option>
+
+                    <option value="Electronic Devices and Linear Circuits">
+                        Electronic Devices and Linear Circuits
+                    </option>
+
+                    <option value="Digital System Design">
+                        Digital System Design
+                    </option>
+
+                    <option value="Environmental Science">
+                        Environmental Science
+                    </option>
+
+                    <option value="Entrepreneurship Development">
+                        Entrepreneurship Development
+                    </option>
+
+                    <option value="Network Theory and Control System">
+                        Network Theory and Control System
+                    </option>
+
+                    <option value="Digital Marketing">
+                        Digital Marketing
+                    </option>
+
+                    <option value="C++ and Java Programming">
+                        C++ and Java Programming
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Note Title
+                </label>
+
+                <input
+                    type="text"
+                    id="noteTitle"
+                    placeholder="Example: Exception Handling"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Note Content
+                </label>
+
+                <textarea
+                    id="noteContent"
+                    rows="7"
+                    placeholder="Write your note here..."
+                ></textarea>
+
+            </div>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="noteImportant"
+                >
+
+                <span>
+                    ⭐ Mark as Important
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="secondary-btn"
+                onclick="closeAddNote()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="primary-btn"
+                onclick="saveNote()">
+
+                Save Note
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= VIEW NOTE MODAL ================= -->
+
+<div class="modal-overlay hidden"
+     id="viewNoteModal">
+
+    <div class="modal view-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <p class="modal-small"
+                   id="viewNoteSubject">
+                    SUBJECT
+                </p>
+
+                <h2 id="viewNoteTitle">
+                    Note Title
+                </h2>
+
+            </div>
+
+            <button class="modal-close"
+                    onclick="closeViewNote()">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="view-note-content"
+             id="viewNoteContent">
+        </div>
+
+
+        <div class="view-note-footer">
+
+            <span id="viewNoteDate">
+            </span>
+
+            <button
+                class="secondary-btn"
+                onclick="closeViewNote()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= EDIT NOTE MODAL ================= -->
+
+<div class="modal-overlay hidden"
+     id="editNoteModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <p class="modal-small">
+                    UPDATE NOTE
+                </p>
+
+                <h2>
+                    Edit Note
+                </h2>
+
+            </div>
+
+            <button class="modal-close"
+                    onclick="closeEditNote()">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <label>
+                    Subject
+                </label>
+
+                <select id="editNoteSubject">
+
+                    <option value="Mathematics for Signal Analysis">
+                        Mathematics for Signal Analysis
+                    </option>
+
+                    <option value="Electronic Devices and Linear Circuits">
+                        Electronic Devices and Linear Circuits
+                    </option>
+
+                    <option value="Digital System Design">
+                        Digital System Design
+                    </option>
+
+                    <option value="Environmental Science">
+                        Environmental Science
+                    </option>
+
+                    <option value="Entrepreneurship Development">
+                        Entrepreneurship Development
+                    </option>
+
+                    <option value="Network Theory and Control System">
+                        Network Theory and Control System
+                    </option>
+
+                    <option value="Digital Marketing">
+                        Digital Marketing
+                    </option>
+
+                    <option value="C++ and Java Programming">
+                        C++ and Java Programming
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Note Title
+                </label>
+
+                <input
+                    type="text"
+                    id="editNoteTitle"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Note Content
+                </label>
+
+                <textarea
+                    id="editNoteContent"
+                    rows="7"
+                ></textarea>
+
+            </div>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="editNoteImportant"
+                >
+
+                <span>
+                    ⭐ Mark as Important
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="secondary-btn"
+                onclick="closeEditNote()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="primary-btn"
+                onclick="updateNote()">
+
+                Update Note
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= DELETE MODAL ================= -->
+
+<div class="modal-overlay hidden"
+     id="deleteModal">
+
+    <div class="modal small-modal">
+
+        <div class="delete-icon">
+            🗑️
+        </div>
+
+        <h2>
+            Delete Note?
+        </h2>
+
+        <p>
+            Are you sure you want to delete this note?
+            This action cannot be undone.
+        </p>
+
+        <div class="modal-footer">
+
+            <button
+                class="secondary-btn"
+                onclick="closeDeleteModal()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="danger-btn"
+                onclick="confirmDelete()">
+
+                Delete Note
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= MESSAGE MODAL ================= -->
+
+<div class="modal-overlay hidden"
+     id="messageModal">
+
+    <div class="modal small-modal">
+
+        <div class="message-icon">
+            💬
+        </div>
+
+        <h2>
+            DNO
+        </h2>
+
+        <p id="messageText">
+            Message
+        </p>
+
+        <div class="modal-footer">
+
+            <button
+                class="primary-btn"
+                onclick="closeMessage()">
+
+                OK
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+<!-- PROFILE POPUP -->
+<div class="profile-popup-overlay" id="profilePopupOverlay"
+     onclick="closeProfilePopup(event)">
+
+    <div class="profile-popup" onclick="event.stopPropagation()">
+
+        <button class="profile-popup-close" onclick="closeProfilePopup()">×</button>
+
+        <div class="profile-popup-avatar" id="popupAvatar">G</div>
+
+        <h2 id="popupUsername">Student</h2>
+
+        <p class="popup-role">DNO User</p>
+
+        <div class="popup-divider"></div>
+
+        <div class="profile-stat">
+            <span>📚 Total Notes</span>
+            <strong id="popupTotalNotes">0</strong>
+        </div>
+
+        <div class="profile-stat">
+            <span>⭐ Important Notes</span>
+            <strong id="popupImportantNotes">0</strong>
+        </div>
+
+        <div class="profile-stat">
+            <span>📖 Subjects</span>
+            <strong>8</strong>
+        </div>
+
+        <div class="popup-divider"></div>
+
+        <button class="popup-logout-btn" onclick="logout()">
+            🚪 Logout
+        </button>
+
+    </div>
+</div>
+<!-- END PROFILE POPUP -->
+</body>
+</html>
