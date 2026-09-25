@@ -11,6 +11,43 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
 );
+supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
+
+    if (!session) return;
+
+    document.getElementById("loginScreen").style.display = "none";
+
+    showDashboard();
+
+    await loadCloudNotes();
+
+    const username =
+        session.user.user_metadata?.username ||
+        session.user.email.split("@")[0];
+
+    const profileUsername =
+        document.getElementById("profileUsername");
+
+    if (profileUsername) {
+        profileUsername.textContent = username;
+    }
+
+    const headerUsername =
+        document.getElementById("headerUsername");
+
+    if (headerUsername) {
+        headerUsername.textContent = username;
+    }
+
+    const headerAvatar =
+        document.getElementById("headerAvatar");
+
+    if (headerAvatar) {
+        headerAvatar.textContent =
+            username.charAt(0).toUpperCase();
+    }
+
+});
    /* ================= STORAGE ================= */
 
 let notes = JSON.parse(localStorage.getItem("dnoNotes")) || [];
